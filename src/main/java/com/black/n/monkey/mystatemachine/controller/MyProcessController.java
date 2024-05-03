@@ -16,7 +16,7 @@ public class MyProcessController {
 
     private final MyProcessService service;
 
-    @PostMapping("/v-jstate/tenant/{tenant_id}/workflow/{workflow_id}/create-my-process")
+    @PostMapping("/v-jstate/tenant/{tenant_id}/workflow/{workflow_id}/my-process")
     public ResponseEntity<Map<String,?>> createNew(@PathVariable("tenant_id") String tenantId,
                                                    @PathVariable("workflow_id") UUID workflowId,
                                                    @RequestBody CreateNewMyProcessRequest request) {

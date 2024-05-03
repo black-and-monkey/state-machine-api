@@ -27,7 +27,7 @@ public class MyProcessService {
 
         MyProcess o = MyProcess.builder()
                 .id(UUID.randomUUID())
-                .body(request.body())
+                .body(request.summary())
                 .title(request.title())
                 .user(request.user())
                 .stateMachine(build(tenantId,workflowId))
