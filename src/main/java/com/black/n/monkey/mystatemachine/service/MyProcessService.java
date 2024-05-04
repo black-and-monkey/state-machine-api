@@ -11,10 +11,7 @@ import unquietcode.tools.esm.StringStateMachine;
 
 import java.time.Clock;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,20 +77,22 @@ public class MyProcessService {
     }
 
     public List<MyProcessResponse> findAllByTenantIdAndWorkflowId(String tenantId, UUID workflowId, String search) {
+
         return myPersistence.values().stream()
-                .filter( myProcess -> myProcess.getTenantId().equals(tenantId) && myProcess.getWorkflowId().equals(workflowId))
-                .filter( myProcess ->
-                        StringUtils.isEmpty(search) || StringUtils.containsAnyIgnoreCase(myProcess.getBody(),search) ||
-                                StringUtils.containsAnyIgnoreCase(myProcess.getTitle(),search)
+                .filter(myProcess -> myProcess.getTenantId().equals(tenantId) && myProcess.getWorkflowId().equals(workflowId))
+                .filter(myProcess ->
+                        StringUtils.isEmpty(search) || StringUtils.containsAnyIgnoreCase(myProcess.getBody(), search) ||
+                                StringUtils.containsAnyIgnoreCase(myProcess.getTitle(), search)
                 )
                 .map(
-                process -> new MyProcessResponse(
-                        process.getId(),
-                        process.getCreatedAtUtc(),
-                        process.getTitle(),
-                        process.getBody(),
-                        process.getUser(),
-                        process.getStateMachine().currentState())
-        ).collect(Collectors.toList());
+                        process -> new MyProcessResponse(
+                                process.getId(),
+                                process.getCreatedAtUtc(),
+                                process.getTitle(),
+                                process.getBody(),
+                                process.getUser(),
+                                process.getStateMachine().currentState()))
+                .sorted(Comparator.comparing(MyProcessResponse::createdAtUtc).reversed())
+                .collect(Collectors.toList());
     }
 }
