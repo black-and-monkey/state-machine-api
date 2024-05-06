@@ -95,4 +95,8 @@ public class MyProcessService {
                 .sorted(Comparator.comparing(MyProcessResponse::createdAtUtc).reversed())
                 .collect(Collectors.toList());
     }
+
+    public void delete(String tenantId, UUID workflowId, UUID myProcessId) {
+        myPersistence.remove(myProcessId);
+    }
 }

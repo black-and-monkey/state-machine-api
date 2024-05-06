@@ -44,14 +44,24 @@ public class MyProcessController {
     @GetMapping("/v-jstate/tenant/{tenant_id}/workflow/{workflow_id}/my-process/{my_process_id}")
     public ResponseEntity<?> find(@PathVariable("tenant_id") String tenantId,
                                   @PathVariable("workflow_id") UUID workflowId,
-                                  @PathVariable("my_process_id") UUID myObjectId) {
+                                  @PathVariable("my_process_id") UUID myProcessId) {
 
-        MyProcess o = service.find(tenantId, workflowId, myObjectId);
+        MyProcess o = service.find(tenantId, workflowId, myProcessId);
 
         return ResponseEntity.ok(  Map.of(
                 "uuid",o.getId(),
                 "currentState",o.getStateMachine().currentState()
         ));
+    }
+
+    @DeleteMapping("/v-jstate/tenant/{tenant_id}/workflow/{workflow_id}/my-process/{my_process_id}")
+    public ResponseEntity<?> delete(@PathVariable("tenant_id") String tenantId,
+                                  @PathVariable("workflow_id") UUID workflowId,
+                                  @PathVariable("my_process_id") UUID myProcessId) {
+
+        service.delete(tenantId, workflowId, myProcessId);
+
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/v-jstate/tenant/{tenant_id}/workflow/{workflow_id}/my-process")
